@@ -1,0 +1,70 @@
+//// save with .html extensions////
+//// save image name as img and store image in same folder as program////
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Student Name</title>
+	<style>
+		#name {
+			font-size: 16px;
+		}
+	</style>
+</head>
+<body>
+	<label for="name">Enter Name:</label>
+	<input type="text" id="name" onblur="validate()" onclick="showImage()" onmouseover="changeSize()" onmouseup="resetSize()">
+	<br><br>
+	<img id="img" src="https://via.placeholder.com/150" width="150">
+	<script>
+		function validate() {
+			var name = document.getElementById("name").value;
+			if (name == "") {
+				document.getElementById("name").style.color = "black";
+				document.getElementById("name").style.fontSize = "16px";
+			} else {
+				document.getElementById("name").style.color = "red";
+				document.getElementById("name").style.fontSize = "18px";
+			}
+		}
+		function showImage() {
+			var name = document.getElementById("name").value;
+			if (name == "") {
+				document.getElementById("img").src = "https://via.placeholder.com/350";
+			}
+		}
+		function changeSize() {
+			document.getElementById("img").width = "200";
+		}
+		function resetSize() {
+			document.getElementById("img").width = "150";
+		}
+	</script>
+</body>
+</html>
+
+
+
+
+
+from mlxtend.preprocessing import TransactionEncoder
+from mlxtend.frequent_patterns import apriori, association_rules
+import pandas as pd
+
+data = [['butter', 'bread','milk'], 
+        ['butter', 'flour','milk','suger'], 
+        ['butter', 'eggs','milk','salt'], 
+        ['eggs'], 
+        ['butter', 'flour', 'milk','salt']]
+
+te=TransactionEncoder()
+te_ar=te.fit(data).transform(data)
+df=pd.DataFrame(te_ar,columns=te.columns_)
+print(df)
+
+freq_item=apriori(df,min_support=0.5,use_colnames=True)
+print(freq_item)
+rules=association_rules(freq_item,metric="support",min_threshold=0.05)
+rules=rules.sort_values(['support','confidence'],ascending=[False,False])
+print(rules)

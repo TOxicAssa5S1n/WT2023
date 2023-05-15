@@ -1,0 +1,75 @@
+  
+////save as .php extension////
+
+
+  <?php
+
+    if(isset($_POST['submit'])){
+        // get user input
+        $number = $_POST['number'];
+
+        // check if number is valid
+        if(!is_numeric($number) || $number < 0){
+            echo "<p>Invalid number entered. Please enter a positive integer.</p>";
+        }else{
+            // calculate fibonacci series
+            $fibonacci = "";
+            $num1 = 0;
+            $num2 = 1;
+            $fibonacci .= "$num1, $num2";
+            while(($num1 + $num2) <= $number){
+                $num3 = $num1 + $num2;
+                $fibonacci .= ", $num3";
+                $num1 = $num2;
+                $num2 = $num3;
+            }
+            // calculate sum of digits
+            $sum = array_sum(str_split($number));
+
+            // display results
+            echo "<p>Fibonacci series up to $number: $fibonacci</p>";
+            echo "<p>Sum of digits of $number: $sum</p>";
+        }
+    }
+
+    ?>
+
+    <!-- HTML form to accept user input -->
+    <form method="post">
+        <label>Enter a positive integer:</label>
+        <input type="text" name="number" required>
+        <br><br>
+        <input type="submit" name="submit" value="Submit">
+    </form>
+
+
+
+
+
+/////slip29 Q2 da/////
+import pandas as pd
+import numpy as np
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+# Load Dataset
+dataset = pd.read_csv('student_scores.csv')
+
+# Data Preprocessing
+dataset.dropna(inplace=True)
+dataset['sex'] = dataset['sex'].map({'F': 0, 'M': 1})
+X = dataset[['math_score', 'reading_score']]
+y = dataset['pass']
+
+# Split Dataset
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=0)
+
+# Create and Fit Model
+logreg = LogisticRegression()
+logreg.fit(X_train, y_train)
+
+# Evaluate Model
+y_pred = logreg.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print("Accuracy: ", accuracy)

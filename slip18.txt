@@ -1,0 +1,62 @@
+
+////save as .html extension////
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Fibonacci Numbers</title>
+</head>
+<body>
+	<h1>Fibonacci Numbers</h1>
+	<button onclick="printFibonacci()">Generate Fibonacci Numbers</button>
+	<p id="result"></p>
+	<script>
+		function printFibonacci() {
+			let num1 = 0;
+			let num2 = 1;
+			let result = num1 + " " + num2;
+			let count = parseInt(prompt("Enter the number of Fibonacci numbers you want to generate: "));
+			
+			for (let i = 2; i < count; i++) {
+				let num3 = num1 + num2;
+				result += " " + num3;
+				num1 = num2;
+				num2 = num3;
+			}
+			
+			document.getElementById("result").innerHTML = "Fibonacci Numbers: " + result;
+		}
+	</script>
+</body>
+</html>
+
+
+
+import nltk
+nltk.download('stopwords')
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.probability import FreqDist
+import matplotlib.pyplot as plt
+from wordcloud import WordCloud
+
+text="""Hello all , Welcome to python Programming Academy. Python
+    programming Academy is a nice platform to learn new programming skills.
+    It is Difficult to get enrolled in This Academy."""
+tokenize_words=word_tokenize(text)
+stdata=set(stopwords.words("english"))
+print(tokenize_words)
+print("\n\n\n")
+print("After stopwords deleted")
+filtered_words=[]
+for i in tokenize_words:
+    if(i not in stdata):
+        filtered_words.append(i)
+print(filtered_words)
+
+freq=FreqDist(tokenize_words)
+wordcloud = WordCloud().generate_from_frequencies(freq)
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis("off")
+plt.show()

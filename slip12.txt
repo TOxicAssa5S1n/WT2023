@@ -1,0 +1,75 @@
+
+////save as .html extension//// 
+<html>
+<head>
+<script type="text/javascript">
+	function loadData(){
+		var xmlhttp=false;
+		if(window.XMLHTTP Request)
+		{
+			xmlhttp=new XMLHttpRequest();
+		}
+		else
+		{
+			xmlhttp=new Activexobject("micro_soff.XMLHTTP");
+		}
+		var value = document.getElentBYID("value").value;
+		xmlhttp.open("GET","slip14.php? value=" +value,true);
+		xmlhttp.send(null);
+		xmlhttp.onreadystatechange=function()
+		{
+			if(xmlhttp.readyState==4 && xmlhttp.status==200)
+			{
+				document.getElementById("content").innerHTML=xmlhttp.responseText;
+			}
+		}
+	}
+</script>
+</head>
+<body>
+	<form id="myform">File Name:<input type="text" name="value" id="value"/>
+	<input type="button" value="submit" onclick="loadData();"/>
+	</form>
+	<div id ="content"></div>
+</body>
+</html>
+
+////save as slip14.php////
+<?php
+$value="contact.dat";
+if((is_file($value)))
+{
+	$fp1=fopen($value,"r")or die("Unable to open a file...");
+	$buf1=fread($fp1,filesize($value));
+	$temprecs=explode("\n",$buf1);
+	$i=0;
+		foreach($temprecs as $t)
+			if(strlen($t)>0)
+				$records[$i++]=explode(" ",$t);
+	echo"<p>*****Contact Details *****</p>";
+
+echo"<table border=2>";
+	echo"<tr><th>SRNO</th><th>Name</th><th>Residance no</th><th>Mobile no</th></th>Context</th></tr>";
+foreach($records as $rec)
+	{
+		echo"<tr>";
+			foreach($rec as $f)		
+			{
+				printf("<td>%s</td>",$f);
+			}
+	}
+	echo"</table>";
+	fclose($fp1);
+}
+else
+echo"file not exists";
+?>
+
+
+
+////save as contact.dat////
+
+1 monali 657585 0989798998 abc
+2 sonali 436547 889700870 hkk
+3 deepali 75657 987978699 gvh
+ 

@@ -1,0 +1,72 @@
+
+////save as .html extension//// 
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Search Suggestions</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$("#searchBox").on("input", function() {
+				var input = $(this).val();
+				if (input.length >= 2) {
+					$.ajax({
+						type: "POST",
+						url: "getSuggestions.php",
+						data: { query: input },
+						success: function(response) {
+							$("#suggestions").html(response);
+						}
+					});
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	<h2>Search Suggestions</h2>
+	<input type="text" id="searchBox" name="searchBox">
+	<div id="suggestions"></div>
+</body>
+</html>
+
+
+
+/////save with getSuggestions.php////
+////enter only names which are in array////
+<?php
+$suggestions = array("apple", "banana", "cherry", "date", "elderberry", "fig", "grape", "honeydew", "kiwi", "lemon");
+
+$input = $_POST["query"];
+
+foreach ($suggestions as $suggestion) {
+	if (strpos(strtolower($suggestion), strtolower($input)) !== false) {
+		echo "<p>" . $suggestion . "</p>";
+	}
+}
+?>
+
+
+
+
+
+from mlxtend.preprocessing import TransactionEncoder
+from mlxtend.frequent_patterns import apriori, association_rules
+import pandas as pd
+
+data = [['butter', 'bread','milk'], 
+        ['butter', 'flour','milk','suger'], 
+        ['butter', 'eggs','milk','salt'], 
+        ['eggs'], 
+        ['butter', 'flour', 'milk','salt']]
+
+te=TransactionEncoder()
+te_ar=te.fit(data).transform(data)
+df=pd.DataFrame(te_ar,columns=te.columns_)
+print(df)
+
+freq_item=apriori(df,min_support=0.5,use_colnames=True)
+print(freq_item)
+rules=association_rules(freq_item,metric="support",min_threshold=0.05)
+rules=rules.sort_values(['support','confidence'],ascending=[False,False])
+print(rules)

@@ -1,0 +1,98 @@
+
+
+////save as .html extension////
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Book Details</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      $("select").change(function() {
+        var selectedBook = $(this).val();
+        $.ajax({
+          type: "GET",
+          url: "books.xml",
+          dataType: "xml",
+          success: function(xml) {
+            $(xml).find("book").each(function() {
+              var title = $(this).find("title").text();
+              if (title === selectedBook) {
+                var author = $(this).find("author").text();
+                var year = $(this).find("year").text();
+                var price = $(this).find("price").text();
+                $("#bookDetails").html("<p>Author: " + author + "</p><p>Year: " + year + "</p><p>Price: $" + price + "</p>");
+              }
+            });
+          }
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+  <h2>Select a book:</h2>
+  <select>
+    <option value="">-- Select a book --</option>
+    <option value="The Great Gatsby">The Great Gatsby</option>
+    <option value="To Kill a Mockingbird">To Kill a Mockingbird</option>
+    <option value="1984">1984</option>
+  </select>
+  <div id="bookDetails"></div>
+</body>
+</html>
+
+
+////save as books.xml////
+
+<books>
+  <book>
+    <title>The Great Gatsby</title>
+    <author>F. Scott Fitzgerald</author>
+    <year>1925</year>
+    <price>12.99</price>
+  </book>
+  <book>
+    <title>To Kill a Mockingbird</title>
+    <author>Harper Lee</author>
+    <year>1960</year>
+    <price>14.99</price>
+  </book>
+  <book>
+    <title>1984</title>
+    <author>George Orwell</author>
+    <year>1949</year>
+    <price>10.99</price>
+  </book>
+</books>
+
+
+
+
+import nltk
+#nltk.download('punkt')
+#nltk.download('word_tokenize')
+#nltk.download('sent_tokenize')
+import re
+from nltk.tokenize import word_tokenize
+
+text="""Hello all , Welcome to python Programming Academy. Python
+    programming Academy is a nice platform to learn new programming skills.
+    It is Difficult to get enrolled in This Academy.####,1234,(*&,%6&"""
+
+words = word_tokenize(text)
+print(words)
+cleaned_words = [re.sub(r'[^\w\s]', '', word) for word in words]  # removes special characters
+cleaned_words = [re.sub(r'\d', '', word) for word in cleaned_words]  # removes digits
+word=[]
+for i in cleaned_words:
+    if(i==''):
+        continue
+    else:
+        word.append(i)
+
+print("\n\n",word)
+
+summary=' '.join(word)
+print(summary)

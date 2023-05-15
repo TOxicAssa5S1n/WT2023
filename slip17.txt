@@ -1,0 +1,60 @@
+
+////save with .html extension////
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Student Registration Form</title>
+</head>
+<body onload="showGreeting()">
+	<script>
+		function showGreeting() {
+			alert("Hello! Good morning!");
+		}
+	</script>
+	<h1>Student Registration Form</h1>
+	<form>
+		<label for="name">Name:</label>
+		<input type="text" id="name" name="name"><br><br>
+		<label for="email">Email:</label>
+		<input type="email" id="email" name="email"><br><br>
+		<label for="phone">Phone:</label>
+		<input type="tel" id="phone" name="phone"><br><br>
+		<input type="submit" value="Submit">
+	</form>
+</body>
+</html>
+
+
+
+
+
+
+
+import nltk
+#nltk.download('punkt')
+#nltk.download('word_tokenize')
+#nltk.download('sent_tokenize')
+import re
+from nltk.tokenize import word_tokenize
+
+text="""So, keep working. Keep striving. Never give up. Fall down seven times, get 
+up eight. Ease is a greater threat to progress than hardship. Ease is a greater threat to progress than 
+hardship. So, keep moving, keep growing, keep learning. See you at work"""
+
+words = word_tokenize(text)
+print(words)
+cleaned_words = [re.sub(r'[^\w\s]', '', word) for word in words]  # removes special characters
+cleaned_words = [re.sub(r'\d', '', word) for word in cleaned_words]  # removes digits
+word=[]
+for i in cleaned_words:
+    if(i==''):
+        continue
+    else:
+        word.append(i)
+
+print("\n\n",word)
+
+summary=' '.join(word)
+print(summary)

@@ -1,0 +1,28 @@
+//// save with .html extension////
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Greetings</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$("#name").keyup(function() {
+				var name = $("#name").val().toLowerCase();
+				if (name == "") {
+					$("#message").html("Stranger, please tell me your name!");
+				} else if (name == "rohit" || name == "virat" || name == "dhoni" || name == "ashwin" || name == "harbhajan") {
+					$("#message").html("Hello, master!");
+				} else {
+					$("#message").html(name + ", I don't know you!");
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	<h2>Greetings</h2>
+	<p>Please enter your name:</p>
+	<input type="text" id="name" name="name">
+	<div id="message"></div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+
+////save all codes in one folder and js min file////
+////save as .html extension////
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Voter Registration Form</title>
+	<script src="jquery.min.js"></script>
+	<script src="voter.js"></script>
+</head>
+<body>
+	<h2>Voter Registration Form</h2>
+	<form id="voter-form" action="voter.php" method="post">
+		<label for="name">Name:</label>
+		<input type="text" id="name" name="name" required><br><br>
+		
+		<label for="age">Age:</label>
+		<input type="number" id="age" name="age" required><br><br>
+		
+		<label for="nationality">Nationality:</label>
+		<input type="text" id="nationality" name="nationality" required><br><br>
+		
+		<input type="submit" value="Submit">
+	</form>
+	<div id="result"></div>
+</body>
+</html>
+
+
+////save as voter.js /////
+
+$(document).ready(function() {
+	$("#voter-form").submit(function(event) {
+		event.preventDefault(); // prevent the form from submitting
+		
+		var name = $("#name").val();
+		var age = $("#age").val();
+		var nationality = $("#nationality").val();
+		
+		$.ajax({
+			url: "voter.php",
+			type: "POST",
+			data: {
+				name: name,
+				age: age,
+				nationality: nationality
+			},
+			success: function(response) {
+				$("#result").html(response);
+			}
+		});
+	});
+});
+
+
+
+////save as voter.php////
+
+
+<?php
+$name = $_POST["name"];
+$age = $_POST["age"];
+$nationality = $_POST["nationality"];
+
+if (preg_match('/^[A-Z ]+$/', $name) && $age >= 18 && $nationality == "Indian") {
+	// Validation successful
+	echo "Registration successful.";
+} else {
+	// Validation failed
+	echo "Registration failed.";
+}
+?>
+
+
+
+
+
+from mlxtend.preprocessing import TransactionEncoder
+from mlxtend.frequent_patterns import apriori, association_rules
+import pandas as pd
+
+data = [['butter', 'bread','milk'], 
+        ['butter', 'flour','milk','suger'], 
+        ['butter', 'eggs','milk','salt'], 
+        ['eggs'], 
+        ['butter', 'flour', 'milk','salt']]
+
+te=TransactionEncoder()
+te_ar=te.fit(data).transform(data)
+df=pd.DataFrame(te_ar,columns=te.columns_)
+print(df)
+
+freq_item=apriori(df,min_support=0.5,use_colnames=True)
+print(freq_item)
+rules=association_rules(freq_item,metric="support",min_threshold=0.05)
+rules=rules.sort_values(['support','confidence'],ascending=[False,False])
+print(rules)
